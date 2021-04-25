@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/batracer-wet-setup/static/css/main.41856035.chunk.css",
+    "main.js": "/batracer-wet-setup/static/js/main.c83a602c.chunk.js",
+    "main.js.map": "/batracer-wet-setup/static/js/main.c83a602c.chunk.js.map",
+    "runtime-main.js": "/batracer-wet-setup/static/js/runtime-main.1e22c2ba.js",
+    "runtime-main.js.map": "/batracer-wet-setup/static/js/runtime-main.1e22c2ba.js.map",
+    "static/css/2.4c97ca4f.chunk.css": "/batracer-wet-setup/static/css/2.4c97ca4f.chunk.css",
+    "static/js/2.81fdac03.chunk.js": "/batracer-wet-setup/static/js/2.81fdac03.chunk.js",
+    "static/js/2.81fdac03.chunk.js.map": "/batracer-wet-setup/static/js/2.81fdac03.chunk.js.map",
+    "static/js/3.e9ad3659.chunk.js": "/batracer-wet-setup/static/js/3.e9ad3659.chunk.js",
+    "static/js/3.e9ad3659.chunk.js.map": "/batracer-wet-setup/static/js/3.e9ad3659.chunk.js.map",
+    "index.html": "/batracer-wet-setup/index.html",
+    "static/css/2.4c97ca4f.chunk.css.map": "/batracer-wet-setup/static/css/2.4c97ca4f.chunk.css.map",
+    "static/css/main.41856035.chunk.css.map": "/batracer-wet-setup/static/css/main.41856035.chunk.css.map",
+    "static/js/2.81fdac03.chunk.js.LICENSE.txt": "/batracer-wet-setup/static/js/2.81fdac03.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.1e22c2ba.js",
+    "static/css/2.4c97ca4f.chunk.css",
+    "static/js/2.81fdac03.chunk.js",
+    "static/css/main.41856035.chunk.css",
+    "static/js/main.c83a602c.chunk.js"
+  ]
+}
