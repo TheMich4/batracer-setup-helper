@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
+/* eslint-disable no-restricted-globals */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/prop-types */
 import "./App.css";
