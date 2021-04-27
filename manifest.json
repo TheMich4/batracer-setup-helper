@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Batracer Setup Helper",
+  "name": "Web application to help manage batracer setups",
   "icons": [
     {
       "src": "favicon.ico",
