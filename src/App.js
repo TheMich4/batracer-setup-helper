@@ -1,126 +1,9 @@
-/* eslint-disable jsx-a11y/control-has-associated-label */
-/* eslint-disable no-restricted-globals */
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable react/prop-types */
 import "./App.css";
 
-import { Col, Container, Form, Row, Table } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import React, { useState } from "react";
-
-const weatherConditions = {
-  "Bone Dry": 0,
-  Greasy: 9,
-  Moist: 18,
-  Drizzle: 27,
-  "Light Rain": 36,
-  Rain: 45,
-  "Wet and Slippery": 54,
-  "Steady Rain": 63,
-  "Heavy Rain": 72,
-  "Treacherous Rain and Spray": 81,
-  Monsoon: 90,
-  Storm: 100,
-};
-
-const elements = {
-  frontWing: { label: "Front Wing", adjustment: 20 },
-  rearWing: { label: "Rear Wing", adjustment: 35 },
-  frontSusp: { label: "Front Suspension", adjustment: -20 },
-  rearSusp: { label: "Rear Suspension", adjustment: -35 },
-  frontArb: { label: "Front Anti-Roll Bar", adjustment: -18 },
-  rearArb: { label: "Rear Anti-Roll Bar", adjustment: -30 },
-  frontRh: { label: "Front Ride Height", adjustment: -12 },
-  rearRh: { label: "Rear Ride Height", adjustment: -13 },
-  frontTp: { label: "Front Tire Pressure", adjustment: 10 },
-  rearTp: { label: "Rear Tire Pressure", adjustment: 12 },
-  gears: { label: "Gears", adjustment: -5 },
-  brakeBias: { label: "Brake Bias", adjustment: 15 },
-};
-
-const defaultValues = Object.entries(elements).reduce(
-  (values, element) => ({ ...values, [element[0]]: { low: 0, high: 100 } }),
-  {}
-);
-
-const SetupType = ({ element, label, lowValue, highValue, readOnly = false, handleChange }) => (
-  <tr>
-    <td>
-      <Form.Label>{label}</Form.Label>
-    </td>
-    <td>
-      <Form.Control
-        readOnly={readOnly}
-        value={lowValue}
-        onChange={(event) => handleChange(element, "low", event.target.value)}
-      />
-    </td>
-    <td>
-      <Form.Control
-        readOnly={readOnly}
-        value={highValue}
-        onChange={(event) => handleChange(element, "high", event.target.value)}
-      />
-    </td>
-  </tr>
-);
-
-const SetupTable = ({ readOnly = false, values, handleChange = () => {} }) => (
-  <Table striped bordered hover={false} size="sm">
-    <thead>
-      <tr>
-        <th />
-        <th>Lowest</th>
-        <th>Highest</th>
-      </tr>
-    </thead>
-    <tbody>
-      {Object.keys(elements).map((element) => {
-        const currentElement = elements[element];
-        const lowValue = values[element].low;
-        const highValue = values[element].high;
-        return (
-          <SetupType
-            key={element}
-            element={element}
-            label={currentElement.label}
-            lowValue={lowValue}
-            highValue={highValue}
-            readOnly={readOnly}
-            handleChange={handleChange}
-          />
-        );
-      })}
-    </tbody>
-  </Table>
-);
-
-const WeatherSelect = ({ value, onWeatherChange }) => (
-  <Col>
-    <Form.Group as={Row}>
-      {/* <Form.Label>Weather: </Form.Label> */}
-
-      <Form.Control as="select" defaultValue="Bone Dry" value={value} onChange={onWeatherChange}>
-        {Object.keys(weatherConditions).map((weatherType, index) => (
-          <option key={index}>{weatherType}</option>
-        ))}
-      </Form.Control>
-    </Form.Group>
-  </Col>
-);
-
-const ConvertionTypeSelect = ({ value, onConvertionChange }) => {
-  const label = "Dry to Wet";
-
-  return (
-    <span>
-      <Col>
-        <Form.Group>
-          <Form.Check label={label} value={value} onChange={onConvertionChange} />
-        </Form.Group>
-      </Col>
-    </span>
-  );
-};
+import { ConvertionTypeSelect, SetupTable, WeatherSelect } from "./components";
+import { defaultValues, elements, weatherConditions } from "./consts";
 
 const App = () => {
   const [weather, setWeather] = useState("Bone Dry");
@@ -141,7 +24,7 @@ const App = () => {
 
     if (adjustedValue > 100) {
       adjustedValue = 100;
-    } else if (adjustedValue < 0 || isNaN(adjustedValue) || adjustedValue === Infinity) {
+    } else if (adjustedValue < 0 || Number.isNaN(adjustedValue) || adjustedValue === Infinity) {
       adjustedValue = 0;
     }
     return adjustedValue;
@@ -172,7 +55,7 @@ const App = () => {
   const handleInputValueChange = (element, type, value) => {
     let newValue = Number(value);
 
-    if (value === "" || isNaN(value) || value < 0) {
+    if (value === "" || Number.isNaN(value) || value < 0) {
       newValue = 0;
     } else if (value > 100) {
       newValue = 100;
