@@ -1,105 +1,40 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/button-has-type */
 import "./App.css";
 
-import { Col, Container, Row } from "react-bootstrap";
-import React, { useState } from "react";
-import { ConvertionTypeSelect, SetupTable, WeatherSelect, Navbar } from "./components";
-import { defaultValues, elements, weatherConditions } from "./consts";
+import React from "react";
+import { connect } from "react-redux";
+import { Navbar, WeatherSetupConverter } from "./components";
+import { increaseCounter, decreaseCounter } from "./redux/Counter/counter.actions";
 
-const App = () => {
-  const [weather, setWeather] = useState("Bone Dry");
-  const [convertionType, setConvertionType] = useState(true);
-  const [inputValues, setInputValues] = useState(defaultValues);
-  const [outputValues, setOutputValues] = useState(defaultValues);
+const App = (props) => (
+  <div className="App">
+    <Navbar />
+    {/* <div>Count: {props.count}</div>
 
-  const calculateAdjustedValue = (_setupValue, adjustValue, weatherAdjustValue) => {
-    let adjustedValue = (adjustValue / 100) * weatherAdjustValue;
+    <button
+      onClick={() => {
+        console.log("i");
+        props.increaseCounter();
+      }}
+    >
+      Increase Count
+    </button>
 
-    const setupValue = parseInt(_setupValue, 10);
+    <button onClick={() => props.decreaseCounter()}>Decrease Count</button> */}
+    <WeatherSetupConverter />
+  </div>
+);
 
-    if (convertionType) {
-      adjustedValue = Math.round(setupValue + adjustedValue);
-    } else {
-      adjustedValue = Math.round(setupValue - adjustedValue);
-    }
+const mapStateToProps = (state) => ({
+  count: state.counter.count,
+});
 
-    if (adjustedValue > 100) {
-      adjustedValue = 100;
-    } else if (adjustedValue < 0 || Number.isNaN(adjustedValue) || adjustedValue === Infinity) {
-      adjustedValue = 0;
-    }
-    return adjustedValue;
-  };
+const mapDispatchToProps = (dispatch) => ({
+  increaseCounter: () => dispatch(increaseCounter()),
+  decreaseCounter: () => dispatch(decreaseCounter()),
+});
 
-  const calculateOutputValues = () =>
-    Object.keys(inputValues).reduce((values, element) => {
-      const currentValues = inputValues[element];
-      const adjustValue = elements[element].adjustment;
-      const currentWeather = weatherConditions[weather];
-      const low = calculateAdjustedValue(currentValues.low, adjustValue, currentWeather);
-      const high = calculateAdjustedValue(currentValues.high, adjustValue, currentWeather);
-      const elementObject = { [element]: { low, high } };
-
-      return { ...values, ...elementObject };
-    }, {});
-
-  const handleWeatherChange = (event) => {
-    const selectedWeather = event.target.value || "Bone Dry";
-    setWeather(selectedWeather);
-
-    const newOuputValues = calculateOutputValues();
-    setOutputValues(newOuputValues);
-  };
-
-  const handleConvertionTypeChange = (event) => {
-    setConvertionType(!event.target.checked);
-
-    const newOuputValues = calculateOutputValues();
-    setOutputValues(newOuputValues);
-  };
-
-  const handleInputValueChange = (element, type, value) => {
-    let newValue = Number(value);
-
-    if (value === "" || Number.isNaN(value) || value < 0) {
-      newValue = 0;
-    } else if (value > 100) {
-      newValue = 100;
-    }
-
-    setInputValues((prevState) => ({
-      ...prevState,
-      [element]: { ...prevState[element], [type]: newValue },
-    }));
-
-    const adjustValue = elements[element].adjustment;
-    const adjustedValue = calculateAdjustedValue(newValue, adjustValue, weatherConditions[weather]);
-
-    setOutputValues((prevState) => ({
-      ...prevState,
-      [element]: { ...prevState[element], [type]: adjustedValue },
-    }));
-  };
-
-  return (
-    <div className="App">
-      <Navbar />
-      <Container>
-        <WeatherSelect value={weather} onWeatherChange={handleWeatherChange} />
-        <ConvertionTypeSelect
-          value={convertionType}
-          onConvertionChange={handleConvertionTypeChange}
-        />
-        <Row>
-          <Col>
-            <SetupTable values={inputValues} handleChange={handleInputValueChange} />
-          </Col>
-          <Col>
-            <SetupTable values={outputValues} readOnly />
-          </Col>
-        </Row>
-      </Container>
-    </div>
-  );
-};
-
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);
