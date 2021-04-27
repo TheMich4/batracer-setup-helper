@@ -2,7 +2,7 @@ import "./App.css";
 
 import { Col, Container, Row } from "react-bootstrap";
 import React, { useState } from "react";
-import { ConvertionTypeSelect, SetupTable, WeatherSelect } from "./components";
+import { ConvertionTypeSelect, SetupTable, WeatherSelect, Navbar } from "./components";
 import { defaultValues, elements, weatherConditions } from "./consts";
 
 const App = () => {
@@ -30,15 +30,8 @@ const App = () => {
     return adjustedValue;
   };
 
-  const handleWeatherChange = (event) => {
-    const selectedWeather = event.target.value || "Bone Dry";
-    setWeather(selectedWeather);
-  };
-
-  const handleConvertionTypeChange = (event) => {
-    setConvertionType(!event.target.checked);
-
-    const newOuputValues = Object.keys(inputValues).reduce((values, element) => {
+  const calculateOutputValues = () =>
+    Object.keys(inputValues).reduce((values, element) => {
       const currentValues = inputValues[element];
       const adjustValue = elements[element].adjustment;
       const currentWeather = weatherConditions[weather];
@@ -49,6 +42,18 @@ const App = () => {
       return { ...values, ...elementObject };
     }, {});
 
+  const handleWeatherChange = (event) => {
+    const selectedWeather = event.target.value || "Bone Dry";
+    setWeather(selectedWeather);
+
+    const newOuputValues = calculateOutputValues();
+    setOutputValues(newOuputValues);
+  };
+
+  const handleConvertionTypeChange = (event) => {
+    setConvertionType(!event.target.checked);
+
+    const newOuputValues = calculateOutputValues();
     setOutputValues(newOuputValues);
   };
 
@@ -77,6 +82,7 @@ const App = () => {
 
   return (
     <div className="App">
+      <Navbar />
       <Container>
         <WeatherSelect value={weather} onWeatherChange={handleWeatherChange} />
         <ConvertionTypeSelect
