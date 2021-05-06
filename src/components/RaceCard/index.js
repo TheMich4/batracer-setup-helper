@@ -2,10 +2,16 @@ import React from "react";
 import { connect } from "react-redux";
 import { Card } from "react-bootstrap";
 import SetupPart from "./SetupPart";
+import SettingsModal from "./SettingsModal";
 
 const RaceCard = ({ race, setup }) => (
   <Card className="text-center" style={{ margin: "10px" }}>
-    <Card.Header as="h5">{race.country}</Card.Header>
+    <Card.Header as="h5" style={{ display: "flex", alignItems: "center" }}>
+      <div style={{ flexGrow: "1" }} />
+      {race.country}
+      <div style={{ flexGrow: "1" }} />
+      <SettingsModal />
+    </Card.Header>
     <Card.Body>
       {/* <Card.Title>TITLE</Card.Title>
       <Card.Text>TEXT</Card.Text> */}

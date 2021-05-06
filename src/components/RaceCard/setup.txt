@@ -1,0 +1,95 @@
+Wings
+lower
+front
+front
+
+Spot On: 29
+higher
+29
+lower
+rear
+rear
+
+lo:15 - hi:85
+
+higher	
+28
+Suspension
+softer
+front
+front
+
+Spot On: 69
+harder	
+69
+softer
+rear
+rear
+
+lo:66 - hi:81
+
+harder	
+67
+Anti-Roll Bar
+looser
+front
+front
+
+Spot On: 65
+stiffer	
+65
+looser
+rear
+rear
+
+lo:25 - hi:100
+
+stiffer	
+76
+Ride Height
+lower
+front
+front
+
+lo:42 - hi:66
+
+higher	
+62
+lower
+rear
+rear
+
+lo:72 - hi:100
+
+higher	
+94
+Tyre Pressure
+less
+front
+front
+
+Spot On: 76
+more	
+76
+less
+rear
+rear
+
+lo:56 - hi:80
+
+more	
+60
+Gears
+shorter
+narrower
+
+
+Spot On: 71
+longer
+wider	
+71
+Brake Bias
+fore
+
+
+lo:0 - hi:43
