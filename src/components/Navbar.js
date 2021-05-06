@@ -4,6 +4,7 @@ import { Navbar as ReactNavbar, ButtonGroup, Modal, Button, FormControl } from "
 import AddRaceModal from "./AddRaceModal";
 import WeatherSetupConverter from "./WeatherSetupConverter";
 import { getRaceList, setActiveRace } from "../redux/SetupHistory/setupHistory.actions";
+import Select from "react-select";
 
 const WetWeatherModal = () => {
   const [show, setShow] = useState(false);
@@ -37,32 +38,27 @@ const WetWeatherModal = () => {
   );
 };
 
-const RaceSelect = ({ races = [], handleRaceChange, activeRace }) => (
-  <FormControl
-    as="select"
-    className="mr-sm-2"
-    style={{ maxWidth: "200px" }}
-    value={activeRace}
-    onChange={handleRaceChange}
-  >
-    {races.map((race) => (
-      <option key={race.id} value={race.id}>
-        {race.country}
-      </option>
-    ))}
-  </FormControl>
+const RaceSelect = ({ races = [], handleRaceChange, activeRaceId }) => (
+  <div style={{ width: "200px" }}>
+    {console.log({ races, activeRaceId })}
+    <Select
+      options={races.map((race) => ({ value: race.id, label: race.country }))}
+      value={activeRaceId}
+      onChange={handleRaceChange}
+    />
+  </div>
 );
 
-const Navbar = ({ races, setActiveRace, activeRace }) => {
-  const handleRaceChange = (event) => {
-    setActiveRace(parseInt(event.target.value, 10));
+const Navbar = ({ races, setActiveRace, activeRaceId }) => {
+  const handleRaceChange = (selectedOption) => {
+    setActiveRace(selectedOption.value);
   };
 
   return (
     <ReactNavbar collapseOnSelect bg="dark" expand="lg" variant="dark">
       <ReactNavbar.Brand>Batracer Setup Helper</ReactNavbar.Brand>
       {races.length > 1 && (
-        <RaceSelect races={races} activeRace={activeRace} handleRaceChange={handleRaceChange} />
+        <RaceSelect races={races} activeRaceId={activeRaceId} handleRaceChange={handleRaceChange} />
       )}
       <ReactNavbar.Toggle />
       <ReactNavbar.Collapse className="justify-content-end">
@@ -77,7 +73,7 @@ const Navbar = ({ races, setActiveRace, activeRace }) => {
 
 const mapStateToProps = (state) => ({
   races: getRaceList(state),
-  activeRace: state.setupHistory.activeRace,
+  activeRace: state.setupHistory.activeRaceId,
 });
 
 const mapDispatchToProps = (dispatch) => ({
