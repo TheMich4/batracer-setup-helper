@@ -32,3 +32,13 @@ export const defaultValues = Object.entries(elements).reduce(
   (values, element) => ({ ...values, [element[0]]: { low: 0, high: 100 } }),
   {}
 );
+
+export const defaultSetup = {
+  wings: { front: { low: 0, high: 100 }, rear: { low: 0, high: 100 } },
+  suspension: { front: { low: 0, high: 100 }, rear: { low: 0, high: 100 } },
+  arb: { front: { low: 0, high: 100 }, rear: { low: 0, high: 100 } },
+  rideHeight: { front: { low: 0, high: 100 }, rear: { low: 0, high: 100 } },
+  tyrePressure: { front: { low: 0, high: 100 }, rear: { low: 0, high: 100 } },
+  gears: { gears: { low: 0, high: 100 } },
+  brakeBias: { brakeBias: { low: 0, high: 100 } },
+};

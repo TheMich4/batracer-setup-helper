@@ -1,4 +1,5 @@
-import { ADD_RACE, SET_ACTIVE_RACE } from "./setupHistory.types";
+import { ADD_RACE, SET_ACTIVE_RACE, ADD_SETUP } from "./setupHistory.types";
+import { defaultSetup } from "../../consts";
 
 export const addRace = (country) => ({ type: ADD_RACE, payload: { country } });
 
@@ -7,7 +8,6 @@ export const getRaceList = (state) => {
     id: race.id,
     country: race.country,
   }));
-  console.log({ state, raceList });
   return raceList;
 };
 
@@ -19,4 +19,22 @@ export const getActiveRace = (state) => {
   }
 
   return state.setupHistory.races[state.setupHistory.activeRaceId];
+};
+
+export const addSetup = (setupName, setup = defaultSetup) => ({
+  type: ADD_SETUP,
+  payload: { setup, setupName },
+});
+
+export const getActiveSetupName = (state) => state.setupHistory.activeSetupName;
+
+export const getActiveSetup = (state) => {
+  const activeSetupName = getActiveSetupName(state);
+  const activeRace = getActiveRace(state);
+
+  if (!activeSetupName || !activeRace) {
+    return null;
+  }
+
+  return state.setupHistory.races[activeRace.id].setups[activeSetupName];
 };

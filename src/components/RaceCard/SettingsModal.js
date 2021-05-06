@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { Button, Modal, Form, Row, Col } from "react-bootstrap";
 import parseSetup from "./parseSetup";
 
-const SettingsModal = () => {
+const SettingsModal = ({ country = "", addSetup }) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   //   const [isValid, setValid] = useState(true);
 
+  const [setupName, setSetupName] = useState("");
   const [setup, setSetup] = useState("");
 
   const handleSetupChange = (event) => {
@@ -15,16 +16,44 @@ const SettingsModal = () => {
     setSetup(text);
   };
 
-  const handleSubmit = () => {
-    console.log("SUBMIT");
-    const parsedSetup = parseSetup(setup);
-    console.log({ parsedSetup });
+  const handleSetupNameChange = (event) => {
+    const text = event.target.value || "";
+    setSetupName(text);
+  };
 
-    if (parsedSetup === false) {
-      //   setValid(false);
-    } else {
-      //   setValid(true);
+  const handleSubmit = () => {
+    if (setupName === "") {
+      return;
     }
+
+    if (setup === "") {
+      addSetup(setupName);
+    } else {
+      const parsedSetup = parseSetup(setup);
+
+      if (parsedSetup === false) {
+        //   setValid(false);
+      } else {
+        //   setValid(true);
+
+        // TODO REFACTOR THIS !!!
+        const setup = {
+          wings: { front: parsedSetup[0], rear: parsedSetup[1] },
+          suspension: { front: parsedSetup[2], rear: parsedSetup[3] },
+          arb: { front: parsedSetup[4], rear: parsedSetup[5] },
+          rideHeight: { front: parsedSetup[6], rear: parsedSetup[7] },
+          tyrePressure: { front: parsedSetup[8], rear: parsedSetup[9] },
+          gears: { gears: parsedSetup[10] },
+          brakeBias: { brakeBias: parsedSetup[11] },
+        };
+
+        addSetup(setupName, setup);
+      }
+    }
+
+    setSetup("");
+    setSetupName("");
+    handleClose();
   };
 
   const renderForm = () => (
@@ -34,7 +63,15 @@ const SettingsModal = () => {
           Country:
         </Form.Label>
         <Col sm={10}>
-          <Form.Control disabled required onChange={() => {}} />
+          <Form.Control disabled required onChange={() => {}} value={country} />
+        </Col>
+      </Form.Group>
+      <Form.Group as={Row}>
+        <Form.Label column sm={2}>
+          Setup name:
+        </Form.Label>
+        <Col sm={10}>
+          <Form.Control required onChange={handleSetupNameChange} value={setupName} />
         </Col>
       </Form.Group>
       <Form.Group as={Row}>
@@ -51,10 +88,10 @@ const SettingsModal = () => {
   return (
     <>
       <Button style={{ display: "flex" }} onClick={handleShow}>
-        SETTINGS
+        ADD SETUP
       </Button>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>Settings</Modal.Title>
         </Modal.Header>

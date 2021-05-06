@@ -1,9 +1,10 @@
-import { ADD_RACE, SET_ACTIVE_RACE } from "./setupHistory.types";
+import { ADD_RACE, SET_ACTIVE_RACE, ADD_SETUP } from "./setupHistory.types";
 
 const INITIAL_STATE = {
   races: {},
   lastRaceId: -1,
   activeRaceId: -1,
+  activeSetupName: null,
 };
 
 const setupHistoryReducer = (state = INITIAL_STATE, action) => {
@@ -20,7 +21,7 @@ const setupHistoryReducer = (state = INITIAL_STATE, action) => {
           [newRaceId]: {
             id: newRaceId,
             country: action.payload.country,
-            setups: [],
+            setups: {},
           },
         },
       };
@@ -32,6 +33,22 @@ const setupHistoryReducer = (state = INITIAL_STATE, action) => {
         activeRaceId: action.payload.raceId,
       };
     }
+
+    case ADD_SETUP:
+      return {
+        ...state,
+        activeSetupName: action.payload.setupName,
+        races: {
+          ...state.races,
+          [state.activeRaceId]: {
+            ...state.races[state.activeRaceId],
+            setups: {
+              ...state.races[state.activeRaceId].setups,
+              [action.payload.setupName]: action.payload.setup,
+            },
+          },
+        },
+      };
 
     default:
       return state;

@@ -37,11 +37,12 @@ const WetWeatherModal = () => {
   );
 };
 
-const RaceSelect = ({ races = [], handleRaceChange }) => (
+const RaceSelect = ({ races = [], handleRaceChange, activeRace }) => (
   <FormControl
     as="select"
     className="mr-sm-2"
     style={{ maxWidth: "200px" }}
+    value={activeRace}
     onChange={handleRaceChange}
   >
     {races.map((race) => (
@@ -52,7 +53,7 @@ const RaceSelect = ({ races = [], handleRaceChange }) => (
   </FormControl>
 );
 
-const Navbar = ({ races, setActiveRace }) => {
+const Navbar = ({ races, setActiveRace, activeRace }) => {
   const handleRaceChange = (event) => {
     setActiveRace(parseInt(event.target.value, 10));
   };
@@ -60,7 +61,9 @@ const Navbar = ({ races, setActiveRace }) => {
   return (
     <ReactNavbar collapseOnSelect bg="dark" expand="lg" variant="dark">
       <ReactNavbar.Brand>Batracer Setup Helper</ReactNavbar.Brand>
-      {races.length > 1 && <RaceSelect races={races} handleRaceChange={handleRaceChange} />}
+      {races.length > 1 && (
+        <RaceSelect races={races} activeRace={activeRace} handleRaceChange={handleRaceChange} />
+      )}
       <ReactNavbar.Toggle />
       <ReactNavbar.Collapse className="justify-content-end">
         <ButtonGroup>
@@ -74,6 +77,7 @@ const Navbar = ({ races, setActiveRace }) => {
 
 const mapStateToProps = (state) => ({
   races: getRaceList(state),
+  activeRace: state.setupHistory.activeRace,
 });
 
 const mapDispatchToProps = (dispatch) => ({
