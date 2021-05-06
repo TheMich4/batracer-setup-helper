@@ -1,7 +1,10 @@
-import { ADD_RACE, SET_ACTIVE_RACE, ADD_SETUP } from "./setupHistory.types";
+import { ADD_RACE, SET_ACTIVE_RACE, ADD_SETUP, SET_ACTIVE_SETUP } from "./setupHistory.types";
 import { defaultSetup } from "../../consts";
 
-export const addRace = (country) => ({ type: ADD_RACE, payload: { country } });
+export const addRace = (country) => ({
+  type: ADD_RACE,
+  payload: { country },
+});
 
 export const getRaceList = (state) => {
   const raceList = Object.values(state.setupHistory.races).map((race) => ({
@@ -38,3 +41,5 @@ export const getActiveSetup = (state) => {
 
   return state.setupHistory.races[activeRace.id].setups[activeSetupName];
 };
+
+export const setActiveSetup = (setupName) => ({ type: SET_ACTIVE_SETUP, payload: { setupName } });

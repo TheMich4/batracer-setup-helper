@@ -38,16 +38,21 @@ const WetWeatherModal = () => {
   );
 };
 
-const RaceSelect = ({ races = [], handleRaceChange, activeRaceId }) => (
-  <div style={{ width: "200px" }}>
-    {console.log({ races, activeRaceId })}
-    <Select
-      options={races.map((race) => ({ value: race.id, label: race.country }))}
-      value={activeRaceId}
-      onChange={handleRaceChange}
-    />
-  </div>
-);
+const RaceSelect = ({ races = [], handleRaceChange, activeRaceId }) => {
+  const o = { value: races[activeRaceId].country, label: races[activeRaceId].country };
+
+  return (
+    <div style={{ width: "200px" }}>
+      {console.log({ races, activeRaceId })}
+      <Select
+        options={races.map((race) => ({ value: race.id, label: race.country }))}
+        value={o}
+        defaultValue={o}
+        onChange={handleRaceChange}
+      />
+    </div>
+  );
+};
 
 const Navbar = ({ races, setActiveRace, activeRaceId }) => {
   const handleRaceChange = (selectedOption) => {
@@ -73,7 +78,7 @@ const Navbar = ({ races, setActiveRace, activeRaceId }) => {
 
 const mapStateToProps = (state) => ({
   races: getRaceList(state),
-  activeRace: state.setupHistory.activeRaceId,
+  activeRaceId: state.setupHistory.activeRaceId,
 });
 
 const mapDispatchToProps = (dispatch) => ({

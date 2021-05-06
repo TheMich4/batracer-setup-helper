@@ -40,5 +40,5 @@ export const defaultSetup = {
   rideHeight: { front: { low: 0, high: 100 }, rear: { low: 0, high: 100 } },
   tyrePressure: { front: { low: 0, high: 100 }, rear: { low: 0, high: 100 } },
   gears: { gears: { low: 0, high: 100 } },
-  brakeBias: { brakeBias: { low: 0, high: 100 } },
+  brake: { brake: { low: 0, high: 100 } },
 };

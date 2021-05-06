@@ -37,22 +37,23 @@ const SettingsModal = ({ country = "", addSetup }) => {
         //   setValid(true);
 
         // TODO REFACTOR THIS !!!
-        const setup = {
+        const setupValues = {
           wings: { front: parsedSetup[0], rear: parsedSetup[1] },
           suspension: { front: parsedSetup[2], rear: parsedSetup[3] },
           arb: { front: parsedSetup[4], rear: parsedSetup[5] },
           rideHeight: { front: parsedSetup[6], rear: parsedSetup[7] },
           tyrePressure: { front: parsedSetup[8], rear: parsedSetup[9] },
           gears: { gears: parsedSetup[10] },
-          brakeBias: { brakeBias: parsedSetup[11] },
+          brake: { brake: parsedSetup[11] },
         };
+        console.log("--", { setupName, setupValues, parsedSetup });
 
-        addSetup(setupName, setup);
+        addSetup(setupName, setupValues);
       }
     }
 
-    setSetup("");
-    setSetupName("");
+    // setSetup("");
+    // setSetupName("");
     handleClose();
   };
 
@@ -87,7 +88,7 @@ const SettingsModal = ({ country = "", addSetup }) => {
 
   return (
     <>
-      <Button style={{ display: "flex" }} onClick={handleShow}>
+      <Button variant="dark" style={{ display: "flex" }} onClick={handleShow}>
         ADD SETUP
       </Button>
 

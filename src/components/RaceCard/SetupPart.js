@@ -9,6 +9,7 @@ import {
   InputGroup,
   Container,
 } from "react-bootstrap";
+import { get } from "lodash";
 
 const SetupPart = ({ name, setupPart }) => (
   <Card className="text-center">
@@ -20,13 +21,14 @@ const SetupPart = ({ name, setupPart }) => (
             <Col>
               <Form.Label>{x}</Form.Label>
             </Col>
-            {["Low", "High"].map((element) => (
+            {["low", "high"].map((element) => (
               <Col>
                 <InputGroup>
                   <InputGroup.Prepend>
                     <InputGroup.Text>{element}</InputGroup.Text>
                   </InputGroup.Prepend>
-                  <Form.Control />
+                  {console.log({ setupPart })}
+                  <Form.Control value={get(setupPart, `${x.toLowerCase()}.${element}`, "test")} />
                 </InputGroup>
               </Col>
             ))}

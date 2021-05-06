@@ -7,10 +7,30 @@ import {
   getActiveRace,
   addSetup,
   getActiveSetup,
+  setActiveSetup,
 } from "../../redux/SetupHistory/setupHistory.actions";
+import Select from "react-select";
 
-const RaceCard = ({ race, setup = null, lastRaceId, addSetup, activeSetupName }) => {
+const RaceCard = ({
+  race,
+  setup = null,
+  lastRaceId,
+  addSetup,
+  activeSetupName,
+  selectedOption,
+  setActiveSetup,
+  state,
+}) => {
   console.log({ race, setup });
+  console.log("x", state.setupHistory);
+
+  const setupOptions = Object.keys(race.setups).map((o) => ({ value: o, label: o }));
+
+  const handleActiveSetupChange = (selectedOption) => {
+    console.log({ selectedOption });
+    setActiveSetup(selectedOption.value);
+  };
+
   if (lastRaceId < 0) {
     return <div />;
   }
@@ -21,6 +41,13 @@ const RaceCard = ({ race, setup = null, lastRaceId, addSetup, activeSetupName })
         <div style={{ flexGrow: "1" }} />
         {race.country}
         <div style={{ flexGrow: "1" }} />
+        <div style={{ width: "200px", marginRight: "10px" }}>
+          <Select
+            options={setupOptions}
+            value={{ value: activeSetupName, label: activeSetupName }}
+            onChange={handleActiveSetupChange}
+          />
+        </div>
         <SettingsModal addSetup={addSetup} country={race.country} />
       </Card.Header>
       {activeSetupName && setup && (
@@ -39,10 +66,12 @@ const mapStateToProps = (state) => ({
   race: getActiveRace(state),
   setup: getActiveSetup(state),
   activeSetupName: state.setupHistory.activeSetupName,
+  state: state,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  addSetup: (setup) => dispatch(addSetup(setup)),
+  addSetup: (setupName, setup) => dispatch(addSetup(setupName, setup)),
+  setActiveSetup: (setupName) => dispatch(setActiveSetup(setupName)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RaceCard);
