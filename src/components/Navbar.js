@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Navbar as ReactNavbar, ButtonGroup, Modal, Button, FormControl } from "react-bootstrap";
 import AddRaceModal from "./AddRaceModal";
 import WeatherSetupConverter from "./WeatherSetupConverter";
-import { getRaceList } from "../redux/SetupHistory/setupHistory.actions";
+import { getRaceList, setActiveRace } from "../redux/SetupHistory/setupHistory.actions";
 
 const WetWeatherModal = () => {
   const [show, setShow] = useState(false);
@@ -37,32 +37,47 @@ const WetWeatherModal = () => {
   );
 };
 
-const RaceSelect = ({ races = [] }) => (
-  <FormControl as="select" className="mr-sm-2" style={{ maxWidth: "200px" }}>
+const RaceSelect = ({ races = [], handleRaceChange }) => (
+  <FormControl
+    as="select"
+    className="mr-sm-2"
+    style={{ maxWidth: "200px" }}
+    onChange={handleRaceChange}
+  >
     {races.map((race) => (
-      <option key={race} value={race}>
-        {race}
+      <option key={race.id} value={race.id}>
+        {race.country}
       </option>
     ))}
   </FormControl>
 );
 
-const Navbar = ({ races }) => (
-  <ReactNavbar collapseOnSelect bg="dark" expand="lg" variant="dark">
-    <ReactNavbar.Brand>Batracer Setup Helper</ReactNavbar.Brand>
-    {races.length > 0 && <RaceSelect races={races} />}
-    <ReactNavbar.Toggle />
-    <ReactNavbar.Collapse className="justify-content-end">
-      <ButtonGroup>
-        <AddRaceModal />
-        <WetWeatherModal />
-      </ButtonGroup>
-    </ReactNavbar.Collapse>
-  </ReactNavbar>
-);
+const Navbar = ({ races, setActiveRace }) => {
+  const handleRaceChange = (event) => {
+    setActiveRace(parseInt(event.target.value, 10));
+  };
+
+  return (
+    <ReactNavbar collapseOnSelect bg="dark" expand="lg" variant="dark">
+      <ReactNavbar.Brand>Batracer Setup Helper</ReactNavbar.Brand>
+      {races.length > 1 && <RaceSelect races={races} handleRaceChange={handleRaceChange} />}
+      <ReactNavbar.Toggle />
+      <ReactNavbar.Collapse className="justify-content-end">
+        <ButtonGroup>
+          <AddRaceModal />
+          <WetWeatherModal />
+        </ButtonGroup>
+      </ReactNavbar.Collapse>
+    </ReactNavbar>
+  );
+};
 
 const mapStateToProps = (state) => ({
   races: getRaceList(state),
 });
 
-export default connect(mapStateToProps)(Navbar);
+const mapDispatchToProps = (dispatch) => ({
+  setActiveRace: (raceId) => dispatch(setActiveRace(raceId)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
