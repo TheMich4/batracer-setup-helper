@@ -6,35 +6,13 @@ import "./App.css";
 
 import React from "react";
 import { connect } from "react-redux";
-import { Navbar, WeatherSetupConverter } from "./components";
-import { increaseCounter, decreaseCounter } from "./redux/Counter/counter.actions";
+import { Navbar, WeatherSetupConverter, RaceCard } from "./components";
 
 const App = (props) => (
   <div className="App">
     <Navbar />
-    {/* <div>Count: {props.count}</div>
-
-    <button
-      onClick={() => {
-        console.log("i");
-        props.increaseCounter();
-      }}
-    >
-      Increase Count
-    </button>
-
-    <button onClick={() => props.decreaseCounter()}>Decrease Count</button> */}
-    <WeatherSetupConverter />
+    <RaceCard />
   </div>
 );
 
-const mapStateToProps = (state) => ({
-  count: state.counter.count,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  increaseCounter: () => dispatch(increaseCounter()),
-  decreaseCounter: () => dispatch(decreaseCounter()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
 
-import counterReducer from "./Counter/counter.reducer";
+import setupHistoryReducer from "./SetupHistory/setupHistory.reducer";
 
 const rootReducer = combineReducers({
-  counter: counterReducer,
+  setupHistory: setupHistoryReducer,
 });
 
 export default rootReducer;
